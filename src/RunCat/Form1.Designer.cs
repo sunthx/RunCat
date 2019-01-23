@@ -28,42 +28,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.ucRunCat1 = new RunCat.UcRunCat();
+            this.ucRunCat2 = new RunCat.UcRunCat();
+            this.ucRunCat3 = new RunCat.UcRunCat();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // ucRunCat1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(33, 18);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-
+            this.ucRunCat1.BackColor = System.Drawing.Color.Black;
+            this.ucRunCat1.Location = new System.Drawing.Point(12, 12);
+            this.ucRunCat1.Name = "ucRunCat1";
+            this.ucRunCat1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ucRunCat1.Size = new System.Drawing.Size(33, 18);
+            this.ucRunCat1.TabIndex = 0;
+            // 
+            // ucRunCat2
+            // 
+            this.ucRunCat2.BackColor = System.Drawing.Color.Black;
+            this.ucRunCat2.Location = new System.Drawing.Point(72, 12);
+            this.ucRunCat2.Name = "ucRunCat2";
+            this.ucRunCat2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ucRunCat2.Size = new System.Drawing.Size(33, 18);
+            this.ucRunCat2.TabIndex = 1;
+            // 
+            // ucRunCat3
+            // 
+            this.ucRunCat3.BackColor = System.Drawing.Color.Black;
+            this.ucRunCat3.Location = new System.Drawing.Point(134, 12);
+            this.ucRunCat3.Name = "ucRunCat3";
+            this.ucRunCat3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ucRunCat3.Size = new System.Drawing.Size(33, 18);
+            this.ucRunCat3.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(64, 45);
-            this.Controls.Add(this.pictureBox1);
+            this.ClientSize = new System.Drawing.Size(184, 45);
+            this.Controls.Add(this.ucRunCat3);
+            this.Controls.Add(this.ucRunCat2);
+            this.Controls.Add(this.ucRunCat1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.TopMost = true;
-            this.TransparencyKey = System.Drawing.Color.Black;
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.TransparencyKey = System.Drawing.Color.Brown;
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private UcRunCat ucRunCat1;
+        private UcRunCat ucRunCat2;
+        private UcRunCat ucRunCat3;
     }
 }
 

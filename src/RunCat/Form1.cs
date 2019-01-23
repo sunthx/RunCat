@@ -1,112 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RunCat
 {
     public partial class Form1 : Form
     {
-        private List<Image> _image;
-        private int _currentImageIndex = 0;
-        private int _runerTimerIntervalMax = 500;
-        private readonly Timer _runerTimer;
-        private readonly Timer _cpuCounterRefreshTimer;
-        private PerformanceCounter _cpuCounter;
+        bool _isMouseDown;
+        Point _currentFormLocation;
+        Point _currentMouseOffset;
 
         public Form1()
         {
             InitializeComponent();
 
-            _cpuCounterRefreshTimer = new Timer();
-            _cpuCounterRefreshTimer.Interval = 1000;
-            _cpuCounterRefreshTimer.Tick += _cpuCounterRefreshTimer_Tick;
-
-            _runerTimer = new Timer();
-            _runerTimer.Tick += RunerTimerTick;
-
             Load += Form1_Load;
+            MouseDown += Form1_MouseDown;
+            MouseMove += Form1_MouseMove;
+            MouseUp += Form1_MouseUp;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
-            _image = LoadResouces("cat.cat_page", 5);
-
-            _runerTimer.Interval = _runerTimerIntervalMax;
-            _runerTimer.Start();
-
-            _cpuCounterRefreshTimer.Start();
+            await ucRunCat1.Run();
+            await ucRunCat2.Run();
+            await ucRunCat3.Run();
         }
 
-        private void _cpuCounterRefreshTimer_Tick(object sender, EventArgs e)
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            var cpuUseage = GetCpuUseage();
-            _runerTimer.Interval = ComputeTimerInterval(cpuUseage);
+            if (e.Button != MouseButtons.Left) return;
+            _isMouseDown = true;
+            _currentFormLocation = Location;
+            _currentMouseOffset = MousePosition;
         }
 
-        private void RunerTimerTick(object sender, EventArgs e)
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-            SetImageSource(_image[_currentImageIndex]);
-
-            if (_currentImageIndex == _image.Count - 1)
-            {
-                _currentImageIndex = 0;
-            }
-            else
-            {
-                _currentImageIndex++;
-            }
+            _isMouseDown = false;
         }
 
-        private void SetImageSource(Image image)
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (image == null)
-            {
-                return;
-            }
-
-            pictureBox1.Invoke(new Action(() => { pictureBox1.Image = image; }));
-        }
-
-        private List<Image> LoadResouces(string prefix,int imageCount)
-        {
-            var resources = new List<Image>();
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            for (int i = 0; i < imageCount; i++)
-            {
-                var image = Image.FromStream(assembly.GetManifestResourceStream($"RunCat.images.{prefix}{i}.png"));
-                resources.Add(image);
-            }
-
-            return resources;
-        }
-
-        private float GetCpuUseage()
-        {
-            if (_cpuCounter == null)
-            {
-                _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            }
-
-            return _cpuCounter.NextValue();
-        }
-
-        private int ComputeTimerInterval(float cpuUseage)
-        {
-            if (cpuUseage < 1)
-            {
-                return _runerTimerIntervalMax;
-            }
-
-            var interval = cpuUseage / 100 * _runerTimerIntervalMax;
-            return (int) interval;
+            if (!_isMouseDown) return;
+            Point pt = MousePosition;
+            var rangeX = _currentMouseOffset.X - pt.X; //计算当前鼠标光标的位移，让窗体进行相同大小的位移
+            var rangeY = _currentMouseOffset.Y - pt.Y; //计算当前鼠标光标的位移，让窗体进行相同大小的位移
+            Location = new Point(_currentFormLocation.X - rangeX, _currentFormLocation.Y - rangeY);
         }
     }
 }
