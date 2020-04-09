@@ -51,7 +51,7 @@ namespace RunCat
 
         private void _cpuCounterRefreshTimer_Tick(object sender, EventArgs e)
         {
-            var cpuUseage = GetCpuUseage();
+            var cpuUseage = GetCpuUsage();
             _runerTimer.Interval = ComputeTimerInterval(cpuUseage);
         }
 
@@ -92,7 +92,7 @@ namespace RunCat
             return resources;
         }
 
-        private float GetCpuUseage()
+        private float GetCpuUsage()
         {
             if (_cpuCounter == null)
             {
