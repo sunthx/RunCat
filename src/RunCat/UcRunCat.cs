@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,8 +11,8 @@ namespace RunCat
     {
         private List<Image> _image;
         private int _currentImageIndex = 0;
-        private int _runerTimerIntervalMax = 300;
-        private readonly Timer _runerTimer;
+        private int _runnerTimerIntervalMax = 300;
+        private readonly Timer _runnerTimer;
         private readonly Timer _cpuCounterRefreshTimer;
         private PerformanceCounter _cpuCounter;
 
@@ -28,18 +24,18 @@ namespace RunCat
             _cpuCounterRefreshTimer.Interval = 1000;
             _cpuCounterRefreshTimer.Tick += _cpuCounterRefreshTimer_Tick;
 
-            _runerTimer = new Timer();
-            _runerTimer.Tick += RunerTimerTick;
+            _runnerTimer = new Timer();
+            _runnerTimer.Tick += RunnerTimerTick;
 
             Load += Loaded;
         }
 
         public async Task Run()
         {
-            await Task.Factory.StartNew(() => { _image = LoadResouces("cat.cat_page", 5); });
+            await Task.Factory.StartNew(() => { _image = LoadResource("cat.cat_page", 5); });
 
-            _runerTimer.Interval = _runerTimerIntervalMax;
-            _runerTimer.Start();
+            _runnerTimer.Interval = _runnerTimerIntervalMax;
+            _runnerTimer.Start();
 
             _cpuCounterRefreshTimer.Start();
         }
@@ -51,11 +47,11 @@ namespace RunCat
 
         private void _cpuCounterRefreshTimer_Tick(object sender, EventArgs e)
         {
-            var cpuUseage = GetCpuUsage();
-            _runerTimer.Interval = ComputeTimerInterval(cpuUseage);
+            var cpuUsage = GetCpuUsage();
+            _runnerTimer.Interval = ComputeTimerInterval(cpuUsage);
         }
 
-        private void RunerTimerTick(object sender, EventArgs e)
+        private void RunnerTimerTick(object sender, EventArgs e)
         {
             SetImageSource(_image[_currentImageIndex]);
 
@@ -79,7 +75,7 @@ namespace RunCat
             pictureBox1.Invoke(new Action(() => { pictureBox1.Image = image; }));
         }
 
-        private List<Image> LoadResouces(string prefix, int imageCount)
+        private List<Image> LoadResource(string prefix, int imageCount)
         {
             var resources = new List<Image>();
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -102,9 +98,9 @@ namespace RunCat
             return _cpuCounter.NextValue();
         }
 
-        private int ComputeTimerInterval(float cpuUseage)
+        private int ComputeTimerInterval(float cpuUsage)
         {
-            var interval = _runerTimerIntervalMax - (cpuUseage / 100 * _runerTimerIntervalMax);
+            var interval = _runnerTimerIntervalMax - (cpuUsage / 100 * _runnerTimerIntervalMax);
             if (interval < 1)
             {
                 interval = 1;
