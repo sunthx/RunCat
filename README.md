@@ -1,4 +1,4 @@
-# RunCat On Windows
+# RunCat-Win
 
 >[RunCat](https://itunes.apple.com/nz/app/runcat/id1429033973?mt=12&ref=appinn) 是 MacOS 上的一款应用。
 >喵的跑速是根据你的Mac的CPU使用量来决定的。
