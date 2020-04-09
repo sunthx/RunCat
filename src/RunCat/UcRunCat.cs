@@ -9,40 +9,35 @@ namespace RunCat
 {
     public partial class UcRunCat : UserControl
     {
-        private List<Image> _image;
-        private int _currentImageIndex = 0;
-        private int _runnerTimerIntervalMax = 300;
+        private readonly List<Image> _image;
+        private int _currentImageIndex;
+        private int _runnerTimerIntervalMax = 100;
         private readonly Timer _runnerTimer;
-        private readonly Timer _cpuCounterRefreshTimer;
+        private readonly Timer cpuCounterRefreshTimer;
         private PerformanceCounter _cpuCounter;
 
         public UcRunCat()
         {
             InitializeComponent();
 
-            _cpuCounterRefreshTimer = new Timer();
-            _cpuCounterRefreshTimer.Interval = 1000;
-            _cpuCounterRefreshTimer.Tick += _cpuCounterRefreshTimer_Tick;
+            cpuCounterRefreshTimer = new Timer
+            {
+                Interval = _runnerTimerIntervalMax
+            };
+
+            cpuCounterRefreshTimer.Tick += _cpuCounterRefreshTimer_Tick;
 
             _runnerTimer = new Timer();
             _runnerTimer.Tick += RunnerTimerTick;
-
-            Load += Loaded;
-        }
-
-        public async Task Run()
-        {
-            await Task.Factory.StartNew(() => { _image = LoadResource("cat.cat_page", 5); });
-
             _runnerTimer.Interval = _runnerTimerIntervalMax;
-            _runnerTimer.Start();
 
-            _cpuCounterRefreshTimer.Start();
+            _image = LoadResource("cat.cat_page", 5);
         }
 
-        private void Loaded(object sender, EventArgs e)
+        public void Run()
         {
-            
+            _runnerTimer.Start();
+            cpuCounterRefreshTimer.Start();
         }
 
         private void _cpuCounterRefreshTimer_Tick(object sender, EventArgs e)
