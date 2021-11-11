@@ -6,7 +6,7 @@
 
 没有找到Windows的版本，就自己撸了一个。
 
-## 效果图
+## 运行
 
 ![cat](images/demo.gif)
 
@@ -14,3 +14,7 @@
 * .NetFramework 4.5.1+
 * Win10 1909 亲测可用 （其他Windows版本没有测试过，应该问题不大。）
 * 使用管理员权限运行 `install.bat` 快速安装（当然也可以通过命令，自行选择。）
+
+## 其他
+
+兄弟项目:[YearProgress](https://github.com/sunthx/YearProgress)
