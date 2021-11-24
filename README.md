@@ -1,5 +1,7 @@
 # RunCat-Win
 
+**不适用 Windows11 ，因微软在此系统中移除了TaskBar的自定义功能。**
+
 >[RunCat](https://itunes.apple.com/nz/app/runcat/id1429033973?mt=12&ref=appinn) 是 MacOS 上的一款应用。
 >喵的跑速是根据你的Mac的CPU使用量来决定的。
 >通过看喵的跑速，就可以知道CPU的负荷有多大。
